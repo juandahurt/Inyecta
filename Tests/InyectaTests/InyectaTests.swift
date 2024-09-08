@@ -3,10 +3,18 @@ import XCTest
 
 final class InyectaTests: XCTestCase {
     func testExample() throws {
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
+        let container = Container()
+        container.register {
+            Mock()
+        }
+        let mock = container.resolve(Mock.self)
+        mock?.hi()
+    }
+}
 
-        // Defining Test Cases and Test Methods
-        // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
+
+struct Mock {
+    func hi() {
+        print("Hello!")
     }
 }
