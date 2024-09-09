@@ -2,19 +2,17 @@ import XCTest
 @testable import Inyecta
 
 final class InyectaTests: XCTestCase {
-    func testExample() throws {
+    func testContainer_afterRegisterAService_shouldReturnService() throws {
         let container = Container()
         container.register {
             Mock()
         }
         let mock = container.resolve(Mock.self)
-        mock?.hi()
+        XCTAssertNotNil(mock)
     }
 }
 
-
+// MARK: - Helper
 struct Mock {
-    func hi() {
-        print("Hello!")
-    }
+    var mock = "hi"
 }
