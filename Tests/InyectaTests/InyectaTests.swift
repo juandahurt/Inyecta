@@ -2,11 +2,17 @@ import XCTest
 @testable import Inyecta
 
 final class InyectaTests: XCTestCase {
-    func testExample() throws {
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
-
-        // Defining Test Cases and Test Methods
-        // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
+    func testContainer_afterRegisterAService_shouldReturnService() throws {
+        let container = Container()
+        container.register {
+            Mock()
+        }
+        let mock = container.resolve(Mock.self)
+        XCTAssertNotNil(mock)
     }
+}
+
+// MARK: - Helper
+struct Mock {
+    var mock = "hi"
 }
