@@ -41,22 +41,32 @@ extension ServiceKey: Hashable {
     }
 }
 
+struct ServiceValue {
+    var instance: Any?
+    var factory: (() -> Any)?
+    
+    init(instance: Any? = nil, factory: (() -> Any)? = nil) {
+        self.instance = instance
+        self.factory = factory
+    }
+}
+
 /// Describes a container.
 public class Container {
     // TODO: maybe we need to store the factory?
-    var services: [ServiceKey: Any] = [:]
+    var services: [ServiceKey: ServiceValue] = [:]
 }
 
 // MARK: - Register
 extension Container: ContainerRegistering {
     public func register<T>(_ factory: @escaping () -> T) {
-        services[.init(type: T.self)] = factory()
+        services[.init(type: T.self)] = .init(instance: factory())
     }
 }
 
 extension Container: ContainerResolving {
     public func resolve<T>(_ type: T.Type) -> T? {
-        guard let service = services.first(where: { $0.key.type == type })?.value else {
+        guard let service = services.first(where: { $0.key.type == type })?.value.instance else {
             // TODO: check how to notify user of error
             return nil
         }
