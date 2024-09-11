@@ -53,4 +53,6 @@ struct ServiceValue {
 public class Container {
     // TODO: maybe we need to store the factory?
     var services: [ServiceKey: ServiceValue] = [:]
+    
+    public init() {}
 }
